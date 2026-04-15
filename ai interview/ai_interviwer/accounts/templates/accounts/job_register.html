@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Job Registration</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body {
+      background: linear-gradient(to right, #d7e1ec, #f5f7fa);
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      padding-top: 40px;
+    }
+    .container {
+      max-width: 600px;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    h1 {
+      margin-bottom: 30px;
+      color: #198754;
+      font-weight: 700;
+      text-align: center;
+    }
+    label {
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Register for Job</h1>
+
+    <form method="post" enctype="multipart/form-data" novalidate>
+      {% csrf_token %}
+      
+      <div class="mb-3">
+        <label for="{{ form.first_name.id_for_label }}" class="form-label">First Name</label>
+        {{ form.first_name }}
+        {% if form.first_name.errors %}
+          <div class="text-danger small">{{ form.first_name.errors }}</div>
+        {% endif %}
+      </div>
+
+      <div class="mb-3">
+        <label for="{{ form.last_name.id_for_label }}" class="form-label">Last Name</label>
+        {{ form.last_name }}
+        {% if form.last_name.errors %}
+          <div class="text-danger small">{{ form.last_name.errors }}</div>
+        {% endif %}
+      </div>
+
+      <div class="mb-3">
+        <label for="{{ form.phone_number.id_for_label }}" class="form-label">Phone Number</label>
+        {{ form.phone_number }}
+        {% if form.phone_number.errors %}
+          <div class="text-danger small">{{ form.phone_number.errors }}</div>
+        {% endif %}
+      </div>
+
+      <div class="mb-3">
+        <label for="{{ form.branch.id_for_label }}" class="form-label">Branch</label>
+        {{ form.branch }}
+        {% if form.branch.errors %}
+          <div class="text-danger small">{{ form.branch.errors }}</div>
+        {% endif %}
+      </div>
+
+      <div class="mb-3">
+        <label for="{{ form.resume.id_for_label }}" class="form-label">Resume Upload</label>
+        {{ form.resume }}
+        {% if form.resume.errors %}
+          <div class="text-danger small">{{ form.resume.errors }}</div>
+        {% endif %}
+      </div>
+
+      <div class="mb-3">
+        <label for="{{ form.linkedin_url.id_for_label }}" class="form-label">LinkedIn Account</label>
+        {{ form.linkedin_url }}
+        {% if form.linkedin_url.errors %}
+          <div class="text-danger small">{{ form.linkedin_url.errors }}</div>
+        {% endif %}
+      </div>
+
+      <button type="submit" class="btn btn-success w-100">Submit</button>
+    </form>
+  </div>
+</body>
+</html>

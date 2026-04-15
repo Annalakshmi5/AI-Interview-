@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Up</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .signup-container {
+            background: #fff;
+            padding: 30px 40px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 350px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background: green;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: darkgreen;
+        }
+
+        .link {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .link a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .link a:hover {
+            text-decoration: underline;
+        }
+
+        .success-message {
+            color: green;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .password-rules {
+            font-size: 13px;
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        .password-rules span {
+            display: block;
+        }
+
+        .valid {
+            color: green;
+        }
+
+        .invalid {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="signup-container">
+        <h2>Sign Up</h2>
+
+        {% if messages %}
+            <div class="success-message">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <form method="post">
+            {% csrf_token %}
+            {{ form.username }}
+            {{ form.email }}
+            {{ form.user_type }}
+            <input type="password" name="password1" id="password" placeholder="Password">
+            <input type="password" name="password2" placeholder="Confirm Password">
+
+            <div class="password-rules" id="rules">
+                <span id="length" class="invalid">❌ At least 8 characters</span>
+                <span id="lowercase" class="invalid">❌ One lowercase letter</span>
+                <span id="uppercase" class="invalid">❌ One uppercase letter</span>
+                <span id="number" class="invalid">❌ One number</span>
+                <span id="special" class="invalid">❌ One special character (!@#$%^&*)</span>
+            </div>
+
+            <button type="submit">Sign Up</button>
+        </form>
+
+        <div class="link">
+            <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+        </div>
+    </div>
+
+    <script>
+        const passwordInput = document.getElementById("password");
+        const length = document.getElementById("length");
+        const lowercase = document.getElementById("lowercase");
+        const uppercase = document.getElementById("uppercase");
+        const number = document.getElementById("number");
+        const special = document.getElementById("special");
+
+        passwordInput.addEventListener("input", function () {
+            const value = passwordInput.value;
+
+            // Length
+            if (value.length >= 8) {
+                length.classList.add("valid");
+                length.classList.remove("invalid");
+                length.textContent = "✔ At least 8 characters";
+            } else {
+                length.classList.add("invalid");
+                length.classList.remove("valid");
+                length.textContent = "❌ At least 8 characters";
+            }
+
+            // Lowercase
+            if (/[a-z]/.test(value)) {
+                lowercase.classList.add("valid");
+                lowercase.classList.remove("invalid");
+                lowercase.textContent = "✔ One lowercase letter";
+            } else {
+                lowercase.classList.add("invalid");
+                lowercase.classList.remove("valid");
+                lowercase.textContent = "❌ One lowercase letter";
+            }
+
+            // Uppercase
+            if (/[A-Z]/.test(value)) {
+                uppercase.classList.add("valid");
+                uppercase.classList.remove("invalid");
+                uppercase.textContent = "✔ One uppercase letter";
+            } else {
+                uppercase.classList.add("invalid");
+                uppercase.classList.remove("valid");
+                uppercase.textContent = "❌ One uppercase letter";
+            }
+
+            // Number
+            if (/\d/.test(value)) {
+                number.classList.add("valid");
+                number.classList.remove("invalid");
+                number.textContent = "✔ One number";
+            } else {
+                number.classList.add("invalid");
+                number.classList.remove("valid");
+                number.textContent = "❌ One number";
+            }
+
+            // Special Character
+            if (/[!@#$%^&*]/.test(value)) {
+                special.classList.add("valid");
+                special.classList.remove("invalid");
+                special.textContent = "✔ One special character (!@#$%^&*)";
+            } else {
+                special.classList.add("invalid");
+                special.classList.remove("valid");
+                special.textContent = "❌ One special character (!@#$%^&*)";
+            }
+        });
+    </script>
+
+</body>
+</html>

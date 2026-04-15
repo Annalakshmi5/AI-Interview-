@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ interview.position }} Interview</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background: #f8f9fa;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        .container {
+            max-width: 800px;
+            margin-top: 40px;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        #timer {
+            font-size: 20px;
+            font-weight: bold;
+            color: red;
+            text-align: right;
+        }
+        textarea {
+            width: 100%;
+            resize: vertical;
+        }
+        button {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>{{ interview.position }} Interview</h2>
+    <p>{{ interview.description }}</p>
+
+    <div id="timer"></div>
+
+    <form method="post">
+        {% csrf_token %}
+        {% for q in questions %}
+            <div class="mb-3">
+                <p><b>{{ forloop.counter }}.</b> {{ q.question_text }}</p>
+                <textarea name="answer_{{ q.id }}" rows="4" class="form-control"></textarea>
+            </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+<script>
+    // Get duration from Django safely
+    let timeLeft = parseInt("{{ interview.duration_minutes|default:0 }}") * 60;
+
+    function updateTimer() {
+        let minutes = Math.floor(timeLeft / 60);
+        let seconds = timeLeft % 60;
+        document.getElementById("timer").innerHTML = 
+            minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+        
+        if (timeLeft <= 0) {
+            clearInterval(timer);
+            alert("Time's up! Submitting interview...");
+            document.forms[0].submit();
+        }
+        timeLeft--;
+    }
+
+    let timer = setInterval(updateTimer, 1000);
+    updateTimer();
+</script>
+
+</body>
+</html>

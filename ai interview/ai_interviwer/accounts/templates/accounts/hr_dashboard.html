@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HR Dashboard - Interviews</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        thead {
+            background-color: #343a40;
+            color: white;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            vertical-align: middle;
+            border-bottom: 1px solid #dee2e6;
+        }
+        tbody tr:hover {
+            background-color: #f1f3f5;
+        }
+        .btn {
+            display: inline-block;
+            padding: 5px 10px;
+            font-size: 0.85rem;
+            border-radius: 4px;
+            text-decoration: none;
+            color: white;
+        }
+        .btn-warning {
+            background-color: #ffc107;
+            color: #212529;
+        }
+        .btn-warning:hover {
+            background-color: #e0a800;
+        }
+        .btn-danger {
+            background-color: #dc3545;
+        }
+        .btn-danger:hover {
+            background-color: #bd2130;
+        }
+        .text-muted {
+            color: #6c757d;
+        }
+        .text-center {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Scheduled Interviews</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Candidate</th>
+                <th>Position</th>
+                <th>Date</th>
+                <th>Notes</th>
+                <th>Duration (mins)</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for interview in interviews %}
+                <tr>
+                    <td>{{ interview.candidate.user.get_full_name|default:interview.candidate.user.username }}</td>
+                    <td>{{ interview.position }}</td>
+                    <td>{{ interview.date|date:"Y-m-d H:i" }}</td>
+                    <td>{{ interview.notes|default:"-" }}</td>
+                    <td>{{ interview.duration_minutes }}</td>
+                    <td>
+                        <a href="{% url 'edit_interview' interview.id %}" class="btn btn-warning">Edit</a>
+                        <a href="{% url 'delete_interview' interview.id %}" class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center text-muted">No interviews scheduled.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

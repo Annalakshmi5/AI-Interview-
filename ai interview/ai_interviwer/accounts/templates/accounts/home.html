@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Interview</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background: url("{% static 'images/ai_interviewer.png' %}") no-repeat center center fixed;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+        }
+
+        .overlay {
+            background: rgba(0, 0, 0, 0.5);
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            color: white;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .btn-login {
+            font-size: 1.2rem;
+            padding: 10px 30px;
+            border-radius: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay">
+        <h1>Welcome to AI Interview</h1>
+        <p>Your smart interview assistant</p>
+        <a href="{% url 'login' %}" class="btn btn-primary btn-login">Login</a>
+    </div>
+</body>
+</html>
